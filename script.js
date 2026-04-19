@@ -30,26 +30,26 @@ menuToggle.addEventListener("click", () => {
 });
 
 
-// CLOSE MENU AFTER CLICK (mobile)
+// CLOSE MENU AFTER CLICKING A LINK (mobile)
 navLinks.forEach(link => {
   link.addEventListener("click", () => {
     navCenter.classList.remove("show");
   });
 });
 
-document.querySelectorAll(".project-card").forEach(card => {
-  card.addEventListener("mousemove", (e) => {
-    let x = e.offsetX / card.clientWidth - 0.5;
-    let y = e.offsetY / card.clientHeight - 0.5;
 
-    card.style.transform = `
-      rotateY(${x * 90}deg)
-      rotateX(${y * -90}deg)
-      scale(1.05)
-    `;
-  });
+// PROJECT CARD 3D TILT (desktop only — skip on touch devices)
+if (window.matchMedia("(hover: hover)").matches) {
+  document.querySelectorAll(".project-card").forEach(card => {
+    card.addEventListener("mousemove", (e) => {
+      const x = (e.offsetX / card.clientWidth - 0.5) * 20;
+      const y = (e.offsetY / card.clientHeight - 0.5) * -20;
 
-  card.addEventListener("mouseleave", () => {
-    card.style.transform = "rotateY(0) rotateX(0)";
+      card.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(1.05)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "rotateY(0) rotateX(0) scale(1)";
+    });
   });
-});
+}
