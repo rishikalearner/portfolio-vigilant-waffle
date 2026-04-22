@@ -43,4 +43,8 @@ if (window.matchMedia("(hover: hover)").matches) {
       card.style.transform = "";
     });
   });
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bfa4b098079914b4443a8da9f3d98970e6680685
