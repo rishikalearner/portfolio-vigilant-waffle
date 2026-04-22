@@ -19,8 +19,10 @@ const menuToggle = document.getElementById("menuToggle");
 const navCenter  = document.getElementById("navLinks");
 
 menuToggle.addEventListener("click", () => {
-  navCenter.classList.toggle("show");
-  menuToggle.textContent = navCenter.classList.contains("show") ? "✕" : "☰";
+  const isOpen = navCenter.classList.toggle("show");
+  menuToggle.textContent = isOpen ? "✕" : "☰";
+  // prevent body scroll when menu is open
+  document.body.style.overflow = isOpen ? "hidden" : "";
 });
 
 // CLOSE MENU AFTER CLICKING A LINK
@@ -28,6 +30,7 @@ navLinks.forEach(link => {
   link.addEventListener("click", () => {
     navCenter.classList.remove("show");
     menuToggle.textContent = "☰";
+    document.body.style.overflow = "";
   });
 });
 
@@ -43,8 +46,4 @@ if (window.matchMedia("(hover: hover)").matches) {
       card.style.transform = "";
     });
   });
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> bfa4b098079914b4443a8da9f3d98970e6680685
