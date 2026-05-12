@@ -1,106 +1,825 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Portfolio – Rishika Sharma</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rishika Sharma — Full Stack Developer Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,300&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ══ DARK THEME ══ */
+    [data-theme="dark"] {
+      --bg:          #080c14;
+      --bg3:         #101828;
+      --surface:     #172035;
+      --border:      #1e2d4a;
+      --blue:        #3b9eff;
+      --blue-dim:    #1e6fcc;
+      --blue-glow:   #3b9eff22;
+      --amber:       #f0a500;
+      --amber-dim:   #b07800;
+      --fg:          #e2eaf8;
+      --fg-soft:     #8fa8cc;
+      --muted:       #4a6490;
+      --dim:         #263550;
+      --scanline:    rgba(59,158,255,0.012);
+      --grid-color:  rgba(59,158,255,0.03);
+    }
+
+    /* ══ LIGHT THEME ══ */
+    [data-theme="light"] {
+      --bg:          #f0f4fc;
+      --bg3:         #ffffff;
+      --surface:     #dce6f5;
+      --border:      #c4d4ec;
+      --blue:        #1a5ec8;
+      --blue-dim:    #2470d8;
+      --blue-glow:   #1a5ec820;
+      --amber:       #b06800;
+      --amber-dim:   #c87a00;
+      --fg:          #0d1a2e;
+      --fg-soft:     #2a4570;
+      --muted:       #5a7aaa;
+      --dim:         #9ab0cc;
+      --scanline:    transparent;
+      --grid-color:  rgba(26,94,200,0.04);
+    }
+
+    :root {
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --display: 'Bebas Neue', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scanline) 2px, var(--scanline) 4px);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ══ THEME TOGGLE ══ */
+    .theme-toggle {
+      position: fixed;
+      top: 20px; right: 20px;
+      z-index: 1000;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 7px 14px 7px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      transition: border-color 0.2s, color 0.2s, background 0.35s;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    }
+    .theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
+    .t-icon { font-size: 15px; transition: transform 0.4s; }
+    .theme-toggle:hover .t-icon { transform: rotate(22deg); }
+
+    .t-track {
+      width: 32px; height: 18px;
+      border-radius: 9px;
+      background: var(--border);
+      position: relative;
+      transition: background 0.3s, border 0.3s;
+    }
+    .t-thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: transform 0.3s ease, background 0.3s;
+    }
+    [data-theme="light"] .t-thumb { transform: translateX(14px); background: var(--blue); }
+    [data-theme="light"] .t-track { background: var(--blue-glow); border: 1px solid var(--blue-dim); }
+
+    /* ══ LAYOUT ══ */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ══ HEADER ══ */
+    .header {
+      padding: 64px 0 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+    }
+    .header-left { flex: 1; }
+
+    .status-bar {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--amber);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; box-shadow: 0 0 8px var(--amber); }
+      50%      { opacity:0.4; box-shadow: 0 0 3px var(--amber); }
+    }
+
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(72px, 11vw, 130px);
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      color: var(--fg);
+      margin-bottom: 4px;
+    }
+    .hero-name .accent { color: var(--blue); }
+
+    .hero-role {
+      font-family: var(--mono);
+      font-size: clamp(13px, 2vw, 16px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 32px;
+    }
+
+    .header-right {
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      min-width: 240px;
+    }
+    .contact-line {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-line:hover { color: var(--blue); }
+    .contact-line .icon { color: var(--blue-dim); font-size: 14px; }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--bg);
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      padding: 9px 18px;
+      border-radius: 3px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .download-btn:hover {
+      background: transparent;
+      color: var(--blue);
+      transform: translateY(-1px);
+    }
+
+    .metrics-bar {
+      margin-top: 40px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .metric {
+      padding: 0 24px;
+      border-right: 1px solid var(--border);
+    }
+    .metric:first-child { padding-left: 0; }
+    .metric:last-child  { border-right: none; }
+    .metric-val {
+      font-family: var(--display);
+      font-size: 36px;
+      letter-spacing: 0.06em;
+      color: var(--blue);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .metric-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ══ SECTIONS ══ */
+    .section { padding: 56px 0 0; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .section-label-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.2em;
+    }
+    .section-label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 60px;
+    }
+    .section-label h2 {
+      font-family: var(--display);
+      font-size: 40px;
+      letter-spacing: 0.08em;
+      color: var(--fg);
+      line-height: 1;
+    }
+    .section-label h2 .accent { color: var(--blue); }
+
+    /* ══ SUMMARY ══ */
+    .summary-text {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--fg-soft);
+      font-weight: 300;
+      max-width: 780px;
+      border-left: 2px solid var(--blue-dim);
+      padding-left: 24px;
+    }
+    .summary-text strong { color: var(--fg); font-weight: 500; }
+
+    /* ══ EXPERIENCE ══ */
+    .exp-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px 48px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -24px; top: 0; bottom: 0;
+      width: 2px;
+      background: transparent;
+      transition: background 0.3s;
+    }
+    .exp-item:hover::before { background: var(--blue); }
+
+    .exp-company {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+    .exp-role {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--fg);
+      margin-bottom: 4px;
+    }
+    .exp-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .exp-bullets li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--fg-soft);
+      font-weight: 300;
+      padding-left: 20px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--blue-dim);
+      font-family: var(--mono);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .exp-bullets li strong { color: var(--fg); font-weight: 500; }
+
+    .exp-dates {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--dim);
+      text-align: right;
+      white-space: nowrap;
+      padding-top: 4px;
+    }
+    .badge-seeking {
+      display: inline-block;
+      background: rgba(240,165,0,0.1);
+      border: 1px solid var(--amber-dim);
+      color: var(--amber);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin-bottom: 6px;
+    }
+
+    /* ══ SKILLS ══ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+    .skill-block {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .skill-block::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--blue);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .skill-block:hover { border-color: var(--blue-dim); background: var(--surface); }
+    .skill-block:hover::after { transform: scaleX(1); }
+
+    .skill-block-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+    .skill-block-name {
+      font-family: var(--display);
+      font-size: 26px;
+      letter-spacing: 0.06em;
+      color: var(--fg);
+      margin-bottom: 16px;
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      background: var(--blue-glow);
+      border: 1px solid rgba(59,158,255,0.22);
+      color: var(--blue);
+    }
+    [data-theme="light"] .pill {
+      background: rgba(26,94,200,0.08);
+      border-color: rgba(26,94,200,0.25);
+    }
+    .pill.learning {
+      background: rgba(240,165,0,0.08);
+      border-color: rgba(240,165,0,0.22);
+      color: var(--amber);
+    }
+
+    /* ══ PROJECTS ══ */
+    .project-card {
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      padding: 32px;
+      margin-bottom: 2px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0 32px;
+      align-items: start;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .project-card:hover { border-color: var(--blue-dim); background: var(--surface); }
+
+    .project-index {
+      font-family: var(--display);
+      font-size: 56px;
+      letter-spacing: 0.04em;
+      color: var(--dim);
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .project-card:hover .project-index { color: var(--blue); opacity: 0.4; }
+
+    .project-body { padding-top: 2px; }
+    .project-name {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--fg);
+      margin-bottom: 8px;
+    }
+    .project-desc {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--fg-soft);
+      font-weight: 300;
+      margin-bottom: 14px;
+    }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tech-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid var(--amber-dim);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+    .project-links { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; padding-top: 4px; }
+    .proj-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .proj-link:hover { color: var(--blue); }
+
+    /* ══ EDUCATION ══ */
+    .edu-item {
+      border-left: 2px solid var(--blue-dim);
+      padding: 0 0 32px 28px;
+      position: relative;
+    }
+    .edu-item + .edu-item { border-left: 2px solid var(--dim); }
+    .edu-item::before {
+      content: '';
+      position: absolute;
+      left: -5px; top: 6px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+    }
+    .edu-item + .edu-item::before { background: var(--dim); box-shadow: none; }
+    .edu-degree { font-size: 17px; font-weight: 600; color: var(--fg); margin-bottom: 4px; }
+    .edu-inst { font-family: var(--mono); font-size: 12px; color: var(--blue); letter-spacing: 0.1em; margin-bottom: 4px; }
+    .edu-year { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+    /* ══ FOOTER ══ */
+    .terminal-footer {
+      margin-top: 72px;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .terminal-footer .prompt { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .terminal-footer .prompt span { color: var(--blue); }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--blue);
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .sr-only {
+      position: absolute; width:1px; height:1px;
+      padding:0; margin:-1px; overflow:hidden;
+      clip:rect(0,0,0,0); border:0;
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 720px) {
+      .theme-toggle { top: 12px; right: 12px; }
+      .header-top { flex-direction: column; }
+      .header-right { align-items: flex-start; }
+      .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+      .metric:nth-child(2) { border-right: none; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; }
+      .exp-dates { text-align: left; }
+      .project-card { grid-template-columns: auto 1fr; }
+      .project-links { display: none; }
+    }
+
+    /* ══ ANIMATIONS ══ */
+    @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .status-bar   { animation: fadeIn 0.5s 0.0s both; }
+    .hero-name    { animation: fadeIn 0.6s 0.1s both; }
+    .hero-role    { animation: fadeIn 0.6s 0.2s both; }
+    .header-right { animation: fadeIn 0.6s 0.3s both; }
+    .metrics-bar  { animation: fadeIn 0.6s 0.4s both; }
+  </style>
 </head>
 <body>
 
-<nav class="navbar">
-  <div class="logo">RS</div>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+  <span class="t-icon" id="tIcon">☀︎</span>
+  <div class="t-track"><div class="t-thumb"></div></div>
+  <span id="tLabel">LIGHT</span>
+</button>
 
-  <div class="nav-center" id="navLinks">
-    <a href="#home" class="active">Home</a>
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#connect">Connect</a>
-  </div>
+<span class="sr-only">Rishika Sharma — Full Stack Developer Resume</span>
 
-  <a href="Rishika_Sharma_Resume.pdf" download="Rishika_Sharma_Resume.pdf" class="talk-btn">Download Resume</a>
-  <div class="menu-toggle" id="menuToggle">☰</div>
-</nav>
+<div class="page">
 
-<!-- HOME -->
-<div id="home" class="page home-page">
-  <h3>Hi, I'm</h3>
-  <h2 class="glow-text">Rishika Sharma</h2>
-  <h1>Welcome to My Portfolio</h1>
-</div>
+  <header class="header" role="banner">
+    <div class="header-top">
+      <div class="header-left">
+        <div class="status-bar">
+          <span class="status-dot" aria-hidden="true"></span>
+          OPEN TO NEW OPPORTUNITIES
+        </div>
+        <h1 class="hero-name" aria-label="Rishika Sharma">RISHIKA<br><span class="accent">SHARMA</span></h1>
+        <p class="hero-role">Full Stack Developer &amp; Salesforce CRM Specialist</p>
+      </div>
+      <div class="header-right">
+        <a href="mailto:rishikasharmar27@gmail.com" class="contact-line">
+          <span class="icon" aria-hidden="true">✉</span>rishikasharmar27@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/rishika-sharma25/" target="_blank" rel="noopener" class="contact-line">
+          <span class="icon" aria-hidden="true">◈</span>linkedin.com/in/rishika-sharma25
+        </a>
+        <a href="https://github.com/rishikalearner" target="_blank" rel="noopener" class="contact-line">
+          <span class="icon" aria-hidden="true">⊛</span>github.com/rishikalearner
+        </a>
+        <span class="contact-line">
+          <span class="icon" aria-hidden="true">◎</span>India
+        </span>
+        <a href="https://raw.githubusercontent.com/rishikalearner/portfolio-vigilant-waffle/main/Rishika_Sharma_Resume.pdf" download="Rishika_Sharma_Resume.pdf" class="download-btn" aria-label="Download Resume PDF">
+          <span aria-hidden="true">⬇</span> DOWNLOAD RESUME
+        </a>
+      </div>
+    </div>
+    <div class="metrics-bar" role="list">
+      <div class="metric" role="listitem"><div class="metric-val">1.8</div><div class="metric-label">Years Experience</div></div>
+      <div class="metric" role="listitem"><div class="metric-val">04</div><div class="metric-label">Projects Shipped</div></div>
+      <div class="metric" role="listitem"><div class="metric-val">07+</div><div class="metric-label">Technologies</div></div>
+      <div class="metric" role="listitem"><div class="metric-val">FS</div><div class="metric-label">Full Stack Track</div></div>
+    </div>
+  </header>
 
-<!-- ABOUT -->
-<div id="about" class="page">
-  <h2>About Me</h2>
-  <p class="about-text">
-    I am a dedicated professional with 1.8 years of experience at Genpact as a Senior Associate,
-    where I primarily worked on Salesforce CRM solutions to support business operations and client needs.
-    My role allowed me to strengthen my problem-solving skills, collaborate with cross-functional teams,
-    and gain hands-on expertise in managing customer data and workflows.
-  </p>
-  <p class="about-text">
-    Currently, I am expanding my technical skill set by pursuing a Full Stack Development course with Intellipaat,
-    where I am learning modern web technologies including HTML, CSS, JavaScript, React, Node.js, and databases.
-    My goal is to combine my background in Salesforce with full-stack development skills to build scalable,
-    user-focused applications and contribute to innovative projects.
-  </p>
-  <p class="about-text">
-    I am passionate about continuous learning, adapting to new challenges, and leveraging technology to deliver impactful solutions.
-  </p>
-</div>
+  <section class="section" aria-labelledby="summary-heading">
+    <div class="section-label">
+      <span class="section-label-num">// 00</span>
+      <div class="section-label-line" aria-hidden="true"></div>
+      <h2 id="summary-heading">PROFESSIONAL <span class="accent">SUMMARY</span></h2>
+    </div>
+    <p class="summary-text">
+      Full Stack Developer in training with <strong>1.8 years of professional experience</strong> at Genpact as a Senior Associate specializing in <strong>Salesforce CRM</strong>. Proficient in HTML, CSS, JavaScript, Java, and Spring Boot — with hands-on project experience building interactive frontends and RESTful backend APIs. Currently pursuing Full Stack Development certification at Intellipaat, expanding expertise in React, Node.js, and databases. Actively seeking new opportunities to combine business insight with modern engineering.
+    </p>
+  </section>
 
-<!-- SKILLS -->
-<div id="skills" class="page">
-  <section class="skills">
-    <h2>My Skills</h2>
-    <div class="skills-container">
-      <div class="card"><h3>Frontend</h3><p>HTML, CSS, JavaScript</p></div>
-      <div class="card"><h3>Backend</h3><p>Java, OOP Concepts</p></div>
-      <div class="card"><h3>Tools</h3><p>Git, GitHub, VS Code</p></div>
-      <div class="card"><h3>Learning</h3><p>React, Node.js, Salesforce</p></div>
+  <section class="section" aria-labelledby="exp-heading">
+    <div class="section-label">
+      <span class="section-label-num">// 01</span>
+      <div class="section-label-line" aria-hidden="true"></div>
+      <h2 id="exp-heading">WORK <span class="accent">EXPERIENCE</span></h2>
+    </div>
+
+    <article class="exp-item">
+      <div>
+        <p class="exp-company">Genpact</p>
+        <h3 class="exp-role">Senior Associate — Salesforce CRM</h3>
+        <p class="exp-meta">Full-time · On-site · India</p>
+        <ul class="exp-bullets">
+          <li>Managed and optimized <strong>Salesforce CRM workflows</strong> to support business operations and improve client data management efficiency.</li>
+          <li>Collaborated with cross-functional teams to gather requirements and deliver <strong>CRM-based solutions</strong> aligned with business objectives.</li>
+          <li>Handled customer data pipelines and ensured data integrity across Salesforce modules, reducing manual processing time.</li>
+          <li>Contributed to client-facing deliverables by translating business needs into <strong>structured Salesforce configurations</strong>.</li>
+          <li>Strengthened problem-solving capabilities through real-world exposure to enterprise-scale CRM environments.</li>
+        </ul>
+      </div>
+      <div class="exp-dates">
+        <div class="badge-seeking">SEEKING NEW ROLE</div>
+        <div>2023 — 2025</div>
+        <div style="margin-top:6px;color:var(--blue-dim);">1.8 yrs</div>
+      </div>
+    </article>
+
+    <article class="exp-item">
+      <div>
+        <p class="exp-company">Intellipaat</p>
+        <h3 class="exp-role">Full Stack Development — Course Trainee</h3>
+        <p class="exp-meta">Part-time · Remote · Online Certification</p>
+        <ul class="exp-bullets">
+          <li>Studying modern full stack development covering <strong>HTML5, CSS3, JavaScript, React, Node.js</strong>, and database integration.</li>
+          <li>Building hands-on projects applying <strong>Java and Spring Boot</strong> for backend REST API development.</li>
+          <li>Learning version control workflows with <strong>Git and GitHub</strong> in professional development contexts.</li>
+        </ul>
+      </div>
+      <div class="exp-dates"><div>2024 — Present</div></div>
+    </article>
+  </section>
+
+  <section class="section" aria-labelledby="skills-heading">
+    <div class="section-label">
+      <span class="section-label-num">// 02</span>
+      <div class="section-label-line" aria-hidden="true"></div>
+      <h2 id="skills-heading">TECHNICAL <span class="accent">SKILLS</span></h2>
+    </div>
+    <div class="skills-grid" role="list">
+      <article class="skill-block" role="listitem">
+        <p class="skill-block-label">Frontend</p>
+        <h3 class="skill-block-name">WEB LAYER</h3>
+        <div class="skill-pills">
+          <span class="pill">HTML5</span><span class="pill">CSS3</span><span class="pill">JavaScript</span><span class="pill">Responsive Design</span><span class="pill">Animations</span>
+        </div>
+      </article>
+      <article class="skill-block" role="listitem">
+        <p class="skill-block-label">Backend</p>
+        <h3 class="skill-block-name">SERVER SIDE</h3>
+        <div class="skill-pills">
+          <span class="pill">Java</span><span class="pill">Spring Boot</span><span class="pill">REST APIs</span><span class="pill">OOP</span><span class="pill">CRUD</span>
+        </div>
+      </article>
+      <article class="skill-block" role="listitem">
+        <p class="skill-block-label">Tools &amp; Platforms</p>
+        <h3 class="skill-block-name">DEV TOOLING</h3>
+        <div class="skill-pills">
+          <span class="pill">Git</span><span class="pill">GitHub</span><span class="pill">VS Code</span><span class="pill">Salesforce CRM</span>
+        </div>
+      </article>
+      <article class="skill-block" role="listitem">
+        <p class="skill-block-label">Currently Learning</p>
+        <h3 class="skill-block-name">GROWING STACK</h3>
+        <div class="skill-pills">
+          <span class="pill learning">React</span><span class="pill learning">Node.js</span><span class="pill learning">MongoDB</span><span class="pill learning">Express.js</span>
+        </div>
+      </article>
     </div>
   </section>
+
+  <section class="section" aria-labelledby="projects-heading">
+    <div class="section-label">
+      <span class="section-label-num">// 03</span>
+      <div class="section-label-line" aria-hidden="true"></div>
+      <h2 id="projects-heading">SELECTED <span class="accent">PROJECTS</span></h2>
+    </div>
+
+    <article class="project-card" aria-labelledby="proj1">
+      <div class="project-index" aria-hidden="true">01</div>
+      <div class="project-body">
+        <h3 class="project-name" id="proj1">Hogwarts Sorting Quiz</h3>
+        <p class="project-desc">Interactive personality quiz that dynamically assigns users to Hogwarts houses using branching conditional logic. Features CSS keyframe animations, smooth state transitions, and polished UI feedback — built entirely with vanilla web technologies, no frameworks.</p>
+        <div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">DOM Manipulation</span><span class="tech-tag">Animation</span></div>
+      </div>
+      <div class="project-links"><a href="https://github.com/rishikalearner" target="_blank" rel="noopener" class="proj-link">↗ GitHub</a></div>
+    </article>
+
+    <article class="project-card" aria-labelledby="proj2">
+      <div class="project-index" aria-hidden="true">02</div>
+      <div class="project-body">
+        <h3 class="project-name" id="proj2">Journal App — Spring Boot REST API</h3>
+        <p class="project-desc">Full-featured CRUD journal application built on Spring Boot. Implements RESTful API endpoints for creating, reading, updating, and deleting journal entries. Demonstrates backend architecture, request/response handling, and structured data persistence patterns.</p>
+        <div class="project-tech"><span class="tech-tag">Java</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">REST API</span><span class="tech-tag">CRUD</span><span class="tech-tag">Maven</span></div>
+      </div>
+      <div class="project-links"><a href="https://github.com/rishikalearner" target="_blank" rel="noopener" class="proj-link">↗ GitHub</a></div>
+    </article>
+
+    <article class="project-card" aria-labelledby="proj3">
+      <div class="project-index" aria-hidden="true">03</div>
+      <div class="project-body">
+        <h3 class="project-name" id="proj3">Personal Portfolio Website</h3>
+        <p class="project-desc">Fully responsive portfolio designed and built from scratch showcasing projects, skills, and professional identity. Implements mobile-first layout, smooth scroll navigation, hover microinteractions, and a custom design system — demonstrating frontend craft beyond templates.</p>
+        <div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Responsive</span><span class="tech-tag">Mobile-First</span></div>
+      </div>
+      <div class="project-links"><a href="https://github.com/rishikalearner" target="_blank" rel="noopener" class="proj-link">↗ GitHub</a></div>
+    </article>
+
+    <article class="project-card" aria-labelledby="proj4">
+      <div class="project-index" aria-hidden="true">04</div>
+      <div class="project-body">
+        <h3 class="project-name" id="proj4">Yelp — Social Tweet App</h3>
+        <p class="project-desc">Live social posting app where users can publish short text posts and mention other users by name — similar to Twitter/X. Backed by Supabase for real-time data storage and retrieval. Features @mention support, live feed rendering, and a clean UI — deployed online with no traditional backend server.</p>
+        <div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Supabase</span><span class="tech-tag">@Mentions</span><span class="tech-tag">Live App</span></div>
+      </div>
+      <div class="project-links"><a href="https://github.com/rishikalearner" target="_blank" rel="noopener" class="proj-link">↗ GitHub</a><a href="#" class="proj-link">↗ Live</a></div>
+    </article>
+  </section>
+
+  <section class="section" aria-labelledby="edu-heading">
+    <div class="section-label">
+      <span class="section-label-num">// 04</span>
+      <div class="section-label-line" aria-hidden="true"></div>
+      <h2 id="edu-heading">EDUCATION &amp; <span class="accent">TRAINING</span></h2>
+    </div>
+    <div style="padding-left:4px;">
+      <div class="edu-item">
+        <h3 class="edu-degree">Full Stack Development Certification</h3>
+        <p class="edu-inst">Intellipaat — Online</p>
+        <p class="edu-year">2024 — Present &nbsp;·&nbsp; In Progress</p>
+      </div>
+      <div class="edu-item" style="border-left:2px solid var(--dim);padding-bottom:0;">
+        <h3 class="edu-degree">Bachelor's Degree</h3>
+        <p class="edu-inst">India</p>
+        <p class="edu-year">Completed</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="terminal-footer" role="contentinfo">
+    <div class="prompt">
+      <span>rishika@portfolio</span>:<span style="color:var(--muted)">~</span>$ <span>cat contact.json</span>
+      <span class="cursor" aria-hidden="true"></span>
+    </div>
+    <p style="font-family:var(--mono);font-size:11px;color:var(--dim);">© 2025 Rishika Sharma</p>
+  </footer>
+
 </div>
 
-<!-- PROJECTS -->
-<div id="projects" class="page">
-  <h2>My Projects</h2>
-  <div class="projects-container">
-    <div class="project-card">
-      <h3>🏰 Hogwarts Sorting Quiz</h3>
-      <p>Interactive quiz that assigns Hogwarts house using dynamic logic &amp; animations.</p>
-      <span>HTML • CSS • JavaScript</span>
-    </div>
-    <div class="project-card">
-      <h3>📓 Journal App</h3>
-      <p>CRUD based journal system built with Spring Boot &amp; REST APIs.</p>
-      <span>Java • Spring Boot</span>
-    </div>
-    <div class="project-card">
-      <h3>🌐 Portfolio Website</h3>
-      <p>Personal portfolio showcasing projects, skills and UI design.</p>
-      <span>HTML • CSS</span>
-    </div>
-  </div>
-</div>
+<script>
+  (function() {
+    var html  = document.documentElement;
+    var btn   = document.getElementById('themeToggle');
+    var icon  = document.getElementById('tIcon');
+    var label = document.getElementById('tLabel');
 
-<!-- CONNECT -->
-<div id="connect" class="page">
-  <h2>Let's Connect</h2>
-  <div class="connect-container">
-    <a href="https://www.linkedin.com/in/rishika-sharma25/" target="_blank" class="connect-card">
-      <span>💼</span><p>LinkedIn</p>
-    </a>
-    <a href="https://github.com/rishikalearner" target="_blank" class="connect-card">
-      <span>💻</span><p>GitHub</p>
-    </a>
-    <a href="mailto:rishikasharmar27@gmail.com" class="connect-card">
-      <span>📧</span><p>Email</p>
-    </a>
-  </div>
-</div>
+    // Read system preference
+    var sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark  = sysDark;
 
-<script src="script.js"></script>
+    function applyTheme() {
+      html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      icon.textContent  = isDark ? '☀︎' : '☾';
+      label.textContent = isDark ? 'LIGHT' : 'DARK';
+    }
+
+    // Set on load
+    applyTheme();
+
+    // Toggle on click
+    btn.addEventListener('click', function() {
+      isDark = !isDark;
+      applyTheme();
+    });
+  })();
+</script>
 </body>
 </html>
